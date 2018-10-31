@@ -197,4 +197,23 @@ spring管理事务的属性：事务的隔离级别、是否只读、事务的�
 ### 三大框架整合原理
 ![](https://github.com/limbo-note/videos/blob/master/javaEE_Architect/01/01/02/07_spring/4-1.jpg)
 
-
+- 单独配置spring容器
+	- 创建配置文件applicationContext.xml,并导入约束
+	- web.xml中配置spring随项目启动
+- 单独配置struts2
+	- 配置struts2主配置文件
+	- 配置struts2核心过滤器到web.xml 
+- struts2与spring整合
+	- 配置常量,指定struts2的容器为spring
+	- 整合方案1:struts2自己创建action,spring负责组装依赖属性（自动注入action的属性）
+	![](https://github.com/limbo-note/videos/blob/master/javaEE_Architect/01/01/02/07_spring/4-2.jpg)
+	- 整合方案2:spring负责创建action以及组装
+	![](https://github.com/limbo-note/videos/blob/master/javaEE_Architect/01/01/02/07_spring/4-3.jpg)
+- 单独配置hibernate
+	- 实体类&orm元数据
+	- web.xml中配置hibernate主配置文件
+- spring整合hibernate（将sessionFactory对象交给spring容器管理） 
+	- 配置方案一
+	![](https://github.com/limbo-note/videos/blob/master/javaEE_Architect/01/01/02/07_spring/4-4.jpg)
+	- 配置方案二
+	![](https://github.com/limbo-note/videos/blob/master/javaEE_Architect/01/01/02/07_spring/4-5.jpg)
