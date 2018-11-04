@@ -2,14 +2,14 @@
 - CRM: Customer Relationship Management 客户关系管理
 - EE开发三层框架（web、业务层、持久层）：
 
-	![](https://github.com/limbo-china/videos/blob/master/javaEE_Architect/01/01/02/05_hibernate/1-1.jpg)
+	![](https://github.com/limbo-note/videos/blob/master/javaEE_Architect/01/01/02/05_hibernate/1-1.jpg)
 - Hibernate: 持久层ORM框架
 	- xml映射文件（类和表的映射配置）
 		- class标签。 类和表名的映射
 		- id标签。 主键对应
 		- property标签。 普通字段对应
 	- 核心配置文件（数据库驱动、用户名密码等必选配置，其它可选配置）
-		![](https://github.com/limbo-china/videos/blob/master/javaEE_Architect/01/01/02/05_hibernate/1-2.jpg)
+		![](https://github.com/limbo-note/videos/blob/master/javaEE_Architect/01/01/02/05_hibernate/1-2.jpg)
 	- 主要代码框架
 		- `Configuration config = new Configuration().configure(".xml");`(默认为hibernate.cfg.xml)
 		- `SessionFactory sessionFactory = config.buildSessionFactory();`(SessionFactory是重量级的，一般只创建一个)
@@ -17,7 +17,7 @@
 		- `Transaction tx = session.beginTransaction();`（开启事务后可进行事务操作，最后通过tx.commit()提交或rollback()回滚）
 
 - 系统实例
-	![](https://github.com/limbo-china/videos/blob/master/javaEE_Architect/01/01/02/05_hibernate/1-3.jpg)
+	![](https://github.com/limbo-note/videos/blob/master/javaEE_Architect/01/01/02/05_hibernate/1-3.jpg)
 
 
 # day02
@@ -53,19 +53,19 @@
 
 示例：
 
-![](https://github.com/limbo-china/videos/blob/master/javaEE_Architect/01/01/02/05_hibernate/2-1.jpg)
+![](https://github.com/limbo-note/videos/blob/master/javaEE_Architect/01/01/02/05_hibernate/2-1.jpg)
 
 状态转换：
 
-![](https://github.com/limbo-china/videos/blob/master/javaEE_Architect/01/01/02/05_hibernate/2-2.jpg)
+![](https://github.com/limbo-note/videos/blob/master/javaEE_Architect/01/01/02/05_hibernate/2-2.jpg)
 
 持久态对象能自动更新：（其实就是在session缓存中的对象在提交后能自动同步到数据库，所有对持久化对象的更改就是更改了缓存中的数据）
 
-![](https://github.com/limbo-china/videos/blob/master/javaEE_Architect/01/01/02/05_hibernate/2-3.jpg)
+![](https://github.com/limbo-note/videos/blob/master/javaEE_Architect/01/01/02/05_hibernate/2-3.jpg)
 
 ### hibernate一级缓存
 
-![](https://github.com/limbo-china/videos/blob/master/javaEE_Architect/01/01/02/05_hibernate/2-4.jpg)
+![](https://github.com/limbo-note/videos/blob/master/javaEE_Architect/01/01/02/05_hibernate/2-4.jpg)
 
 执行commit()提交时，会清理session缓存，并同时判断缓存和快照中数据是否一致，若变化，则会执行update同步到数据库，并更新快照；若一致，则不必同步到数据库
 
@@ -88,7 +88,7 @@
 - 项目中的事务
 	- 应在service层控制事务
 	- service层和dao层获取到的session应该是同一个，可用getCurrentSession()方法（主配置中需指定thread配置；getCurrentSession方法获得的session对象.当事务提交时,session会自动关闭.不要手动调用close关闭.）
-	- 如![](https://github.com/limbo-china/videos/blob/master/javaEE_Architect/01/01/02/05_hibernate/2-5.jpg) ![](https://github.com/limbo-china/videos/blob/master/javaEE_Architect/01/01/02/05_hibernate/2-6.jpg)
+	- 如![](https://github.com/limbo-note/videos/blob/master/javaEE_Architect/01/01/02/05_hibernate/2-5.jpg) ![](https://github.com/limbo-note/videos/blob/master/javaEE_Architect/01/01/02/05_hibernate/2-6.jpg)
 
 ### hibernate的批量查询
 - HQL查询（Query面向对象）
@@ -97,15 +97,15 @@
 	- createQuery创建查询对象
 	- Query的set方法设置参数
 	- list()或uniqueResult()查询
-		![](https://github.com/limbo-china/videos/blob/master/javaEE_Architect/01/01/02/05_hibernate/2-7.jpg)
-		![](https://github.com/limbo-china/videos/blob/master/javaEE_Architect/01/01/02/05_hibernate/2-8.jpg)
+		![](https://github.com/limbo-note/videos/blob/master/javaEE_Architect/01/01/02/05_hibernate/2-7.jpg)
+		![](https://github.com/limbo-note/videos/blob/master/javaEE_Architect/01/01/02/05_hibernate/2-8.jpg)
 - Criteria查询
 	- 获得session
 	- 通过session获得Criteria
 	- Restrictions创建Criterion条件对象，加入至Criteria对象
 	- Criteria的list()或uniqueResult()查询
 - 原生SQL
-	![](https://github.com/limbo-china/videos/blob/master/javaEE_Architect/01/01/02/05_hibernate/2-9.jpg)
+	![](https://github.com/limbo-note/videos/blob/master/javaEE_Architect/01/01/02/05_hibernate/2-9.jpg)
 
 # day03
 （...............还没看）hibernate的一对多，多对一，多对多关系
