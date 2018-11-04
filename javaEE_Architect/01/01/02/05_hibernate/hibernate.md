@@ -91,9 +91,21 @@
 	- 如![](https://github.com/limbo-china/videos/blob/master/javaEE_Architect/01/01/02/05_hibernate/2-5.jpg) ![](https://github.com/limbo-china/videos/blob/master/javaEE_Architect/01/01/02/05_hibernate/2-6.jpg)
 
 ### hibernate的批量查询
-- HQL查询（面向对象）
+- HQL查询（Query面向对象）
+	- 获得session
+	- 编写HQL
+	- createQuery创建查询对象
+	- Query的set方法设置参数
+	- list()或uniqueResult()查询
+		![](https://github.com/limbo-china/videos/blob/master/javaEE_Architect/01/01/02/05_hibernate/2-7.jpg)
+		![](https://github.com/limbo-china/videos/blob/master/javaEE_Architect/01/01/02/05_hibernate/2-8.jpg)
 - Criteria查询
+	- 获得session
+	- 通过session获得Criteria
+	- Restrictions创建Criterion条件对象，加入至Criteria对象
+	- Criteria的list()或uniqueResult()查询
 - 原生SQL
+	![](https://github.com/limbo-china/videos/blob/master/javaEE_Architect/01/01/02/05_hibernate/2-9.jpg)
 
 # day03
 （...............还没看）hibernate的一对多，多对一，多对多关系
