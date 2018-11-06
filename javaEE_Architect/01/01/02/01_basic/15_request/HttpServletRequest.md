@@ -1,6 +1,6 @@
 ### HttpServletRequest流程
 
-![](https://github.com/limbo-china/videos/blob/master/javaEE_Architect/01/01/02/01_basic/15_request/1-1.png)
+![](https://github.com/limbo-note/videos/blob/master/javaEE_Architect/01/01/02/01_basic/15_request/1-1.png)
 
 ### HttpServletRequest常见方法
 
@@ -13,7 +13,7 @@
 
 ### HttpServletRequest域对象和请求转发
 
-重定向（客户端的行为）和请求转发（服务端的行为）的区别：![](https://github.com/limbo-china/videos/blob/master/javaEE_Architect/01/01/02/01_basic/15_request/1-2.png)
+重定向（客户端的行为）和请求转发（服务端的行为）的区别：![](https://github.com/limbo-note/videos/blob/master/javaEE_Architect/01/01/02/01_basic/15_request/1-2.png)
 1. 重定向两次请求，转发一次请求
 2. 重定向地址栏的地址变化，转发的地址栏地址不变
 3. 重新定向可以访问外部网站（所以重定向地址是相对于外部的），转发只能访问内部资源（转发地址是相对于此web项目的）
@@ -40,4 +40,4 @@ request域对象：
 ### 其它
 BeanUtils库：将Map中的数据映射到实体中，根据map的key与实体的域变量进行匹配（service层）
 
-关于request中的乱码问题：![](https://github.com/limbo-china/videos/blob/master/javaEE_Architect/01/01/02/01_basic/15_request/1-3.png)
+关于request中的乱码问题：![](https://github.com/limbo-note/videos/blob/master/javaEE_Architect/01/01/02/01_basic/15_request/1-3.png)
