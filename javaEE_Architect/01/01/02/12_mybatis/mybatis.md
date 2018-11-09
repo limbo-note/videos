@@ -31,7 +31,7 @@
 	![](https://github.com/limbo-note/videos/blob/master/javaEE_Architect/01/01/02/12_mybatis/1-5.jpg)
 
 自增主键返回：
-	 
+	![](https://github.com/limbo-note/videos/blob/master/javaEE_Architect/01/01/02/12_mybatis/1-6.jpg)
 
 ### Mybatis和hibernate的不同
 Mybatis它不完全是一个ORM框架，需要程序员自己编写Sql语句。mybatis可以通过XML或注解方式灵活配置要运行的sql语句，并将java对象和sql语句映射生成最终执行的sql，最后将sql执行的结果再映射生成java对象
