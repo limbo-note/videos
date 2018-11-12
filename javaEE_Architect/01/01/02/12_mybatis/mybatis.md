@@ -57,3 +57,57 @@ Mapper接口开发需要遵循以下规范：
 	![](https://github.com/limbo-note/videos/blob/master/javaEE_Architect/01/01/02/12_mybatis/1-7.jpg)
 	![](https://github.com/limbo-note/videos/blob/master/javaEE_Architect/01/01/02/12_mybatis/1-8.jpg)
 	![](https://github.com/limbo-note/videos/blob/master/javaEE_Architect/01/01/02/12_mybatis/1-9.jpg)
+
+
+# day02
+### 输入映射和输出映射
+
+- 输入类型`parameterType`
+	- 简单类型。`#{}`和`${}`进行sql拼接
+	- 简单pojo对象。`#{}`和`${}`直接引用对象属性进行sql拼接
+	- pojo包装对象。 ognl表达式，如`user.name`，进行sql拼接
+- 输出类型`resultType`
+	- 简单类型
+	- 简单pojo类型
+	- pojo列表。 mybatis自动根据接口返回类型判断
+- resultMap					
+	![](https://github.com/limbo-note/videos/blob/master/javaEE_Architect/01/01/02/12_mybatis/2-1.jpg)
+
+### 动态sql
+
+可使用`include,if,where`等标签：				
+![](https://github.com/limbo-note/videos/blob/master/javaEE_Architect/01/01/02/12_mybatis/2-2.jpg)
+
+`foreach`标签进行遍历，构造sql：				
+![](https://github.com/limbo-note/videos/blob/master/javaEE_Architect/01/01/02/12_mybatis/2-3.jpg)
+
+### 多表查询
+
+- 一对一多表查询（如一个订单只能有一个用户）
+	- `association`标签					
+		![](https://github.com/limbo-note/videos/blob/master/javaEE_Architect/01/01/02/12_mybatis/2-4.jpg)
+- 一对多查询（如一个用户可以有多个订单）
+	- `collection`标签					
+		![](https://github.com/limbo-note/videos/blob/master/javaEE_Architect/01/01/02/12_mybatis/2-5.jpg)
+		![](https://github.com/limbo-note/videos/blob/master/javaEE_Architect/01/01/02/12_mybatis/2-6.jpg)
+
+### 整合spring
+
+- 数据库连接池,事务管理交给spring
+- SessionFactory对象应该放到spring容器中作为单例存在
+- 传统dao的开发方式中，从spring容器中获得session对象
+- mybatis-spring中，从spring容器中直接获得mapper的代理对象
+	- 方式一						
+		![](https://github.com/limbo-note/videos/blob/master/javaEE_Architect/01/01/02/12_mybatis/2-7.jpg)
+	- 方式二					
+		![](https://github.com/limbo-note/videos/blob/master/javaEE_Architect/01/01/02/12_mybatis/2-8.jpg)
+
+### Mybatis逆向工程
+
+根据数据库的结构，通过工具来自动生成pojo类和Mapper映射文件，并使用其接口
+
+- 逆向工程生成的代码只能做单表查询
+- 不能在生成的代码上进行扩展，因为如果数据库变更，需要重新使用逆向工程生成代码，原来编写的代码就被覆盖了
+- 一张表会生成4个文件
+
+
