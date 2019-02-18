@@ -22,6 +22,30 @@ UDP面向报文，不作拆分合并
 
 TCP滑动窗口
 
+HTTP无连接（传送完即断开连接）无状态
+
+输入URL回车后：
+1. DNS解析
+2. TCP连接
+3. HTTP请求
+4. HTTP响应
+5. 浏览器解析
+6. 关闭连接
+
+GET和POST的区别：
+1. GET放在URL，POST放在报文体
+2. 数据库：GET幂等性和安全性，POST无
+3. GET可以被缓存，POST不行
+
+SESSION的实现方式：
+1. Cookie实现，回复给客户端一个sessionId做cookie
+2. URL回写
+
+HTTPS数据传输流程：
+1. ........
+
+
+
 
 
 
