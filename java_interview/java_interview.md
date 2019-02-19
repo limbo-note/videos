@@ -45,8 +45,39 @@ HTTPS数据传输流程：
 1. ........
 
 
+# 4. Redis
 
+Memcache:
+1. 类似hash
+2. 只有简单数据类型
+3. 不能持久化
+4. 不支持主从
+5. 不支持分片
 
+为什么redis快：
+1. 内存
+2. 数据结构简单
+3. 单线程，没有上下文切换，锁竞争
+	- CPU一般不是Redis的性能瓶颈，一般都是网络因素
+4. 多路IO复用(selector)，非阻塞IO
+	- 复用函数epoll/kqueue/evport/select
+	- 优先选择o(1)的函数
+	- o(n)的函数保底
+	- 基于react设计模式监听IO事件
 
-
+redis数据类型：
+1. String： 二进制安全，最长512M	
+	```
+	字符串对象的结构
+	struct sdshdr {
+		int len; //buf 中已用的长度
+		int free; //buf 中可用的长度
+		char buf[]; //数据空间
+	}	
+	```
+2. Hash 
+3. List（有序）
+4. Set（无序），可求交并差集
+5. Sorted Set，有序，排序依据是分数
+6. HyperLogLog, Geo
 
