@@ -81,3 +81,32 @@ redis数据类型：
 5. Sorted Set，有序，排序依据是分数
 6. HyperLogLog, Geo
 
+redis实现分布式锁：
+1. setnx实现互斥，expire设置过期时间（即释放锁）
+	```
+	long status = jedis.setnx(key, "xx");
+	
+	if(status == 1){
+		jedis.expire(key, expire);
+		doJob();
+	}
+	```
+	缺点：setnx和expire分开执行了，破坏了原子性，可能会造成expire不执行，发生死锁
+2. 避免以上缺点，将set和expire操作合成原子性，即在set操作里设置过期时间
+	```
+	SET key value [EX sec] [PX] [NX|XX]
+	```
+
+大量key同时过期，清除大量key很耗时，会短暂阻塞，解决：
+1. 随机设置key过期时间
+
+redis做异步队列：
+1. rpush和lpop
+	- 缺点：不会等待，调用pop即立即消费；可在应用程序里sleep做控制
+	- blpop key [timeout]：阻塞timeout秒直到队列里有数据才返回
+	- 只能一个消费者消费，多个消费者可使用订阅模式
+
+redis持久化rdb：
+1. bgsave是fork子进程进行备份，并利用了写时复制，即：
+	- 多个调用者调用相同的资源（内存或外存等），则共同获取相同的指针，直到某个调用者试图修改资源，系统才会真正复制一个副本给该调用者。所以子进程在备份时，父进程对数据进行的修改，都是在副本里修改的，子进程相当于拥有一个快照
+2. 缺点：全量备份，数据大时，由于I/O会严重影响性能；只保存了最后一次快照的数据，之后的数据没有备份到 
