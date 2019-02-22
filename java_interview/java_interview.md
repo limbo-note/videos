@@ -111,16 +111,15 @@ redis持久化rdb：
 	- 多个调用者调用相同的资源（内存或外存等），则共同获取相同的指针，直到某个调用者试图修改资源，系统才会真正复制一个副本给该调用者。所以子进程在备份时，父进程对数据进行的修改，都是在副本里修改的，子进程相当于拥有一个快照
 2. 缺点：全量备份，数据大时，由于I/O会严重影响性能；只保存了最后一次快照的数据，之后的数据没有备份到
 
-aof重写备份文件，见书
+aof重写备份文件，**见书**
  
-主从同步的详细步骤，见书（全量同步，增量同步）
+主从同步的详细步骤，**见书（全量同步，增量同步）**
 
 哨兵：解决主从同步的master宕机的主从切换问题（流言协议，投票确定新的master）
 
 分片，以节点数为模确定数据应该在的节点；无法动态变化
 
-集群，其实就是相比分片，在hash时采用了
-一致性hash算法（哈希环，考虑增减服务器所带来的影响？？），以达到动态扩展的目的。
+集群，其实就是相比分片，在hash时采用了**一致性hash算法**（哈希环，考虑增减服务器所带来的影响？？），以达到动态扩展的目的。
 哈希环数据倾斜问题：节点少，且在环上
 分布不均匀，这时候数据就会集中在某一节点上（引入虚拟节点使其分布均匀，解决此问题） 
 
@@ -152,4 +151,82 @@ aof重写备份文件，见书
 批量替换文本内容：
 1. `sed`，`sed -i 's/Str/String/g xxx.java`
 
-# 6. 
+# 6. Java
+
+java的理解：
+1. 平台无关性
+2. GC
+3. 语言特性：泛型反射等
+4. 面向对象
+5. 类库
+6. 异常处理
+
+平台无关性：
+1. javac编译成字节码，javap可反编译，java运行class文件
+2. java提供了不同平台的jvm，不同jvm对同一字节码文件生成不同的执行指令
+
+反射：
+在运行状态中，对任意一个类，都能动态获取其属性和方法；对任意一个对象，都能动态调用其属性和方法，例如：
+ 	
+```
+public class Robot {
+	private String name;
+	public void sayHi(String helloSentence){
+	    System.out.println(helloSentence + " " + name);
+	}
+	private String throwHello(String tag){
+	    return "Hello " + tag;
+	}
+	static {
+	    System.out.println("Hello Robot");
+	}
+}
+```
+```
+Class rc = Class.forName("com.interview.javabasic.reflect.Robot");
+Robot r = (Robot) rc.newInstance();
+
+Method getHello = rc.getDeclaredMethod("throwHello", String.class);
+getHello.setAccessible(true);
+Object str = getHello.invoke(r, "Bob");
+
+Method sayHi = rc.getMethod("sayHi", String.class);
+sayHi.invoke(r, "Welcome");
+
+Field name = rc.getDeclaredField("name");
+name.setAccessible(true);
+name.set(r, "Alice");
+
+System.out.println(System.getProperty("java.ext.dirs"));
+System.out.println(System.getProperty("java.class.path"));
+
+```
+
+
+ClassLoader：
+1. BootStrapClassLoader：C++编写，加载核心库
+2. ExtClassLoader：java编写，加载扩展库
+3. AppClassLoader：java编写，加载程序所在目录的class
+4. 自定义
+	- 覆盖findClass和defineClass方法，具体见书
+
+双亲委派机制：自底向上检查类是否已加载，自顶向下尝试加载类，代码架构可简化为如下：
+	
+```
+Class loadClass(){
+	c = findLoadedClass();  //是否已加载
+	if(c == null){
+		if(parent != null){ //若有父加载器
+			c = parent.loadClass();  //体现自顶向下加载原则
+		}else //说明是BootStrapClassLoader
+			c = findBootStrapClass();
+		
+		if( c == null){ //若父加载器无法加载
+			c = findClass(); //用本加载器加载
+		}
+	}else
+		return c;
+}
+```
+为什么需要双亲委派机制：
+1. 避免多份同样字节码的加载
