@@ -153,7 +153,7 @@ aof重写备份文件，**见书**
 
 # 6. Java
 
-java的理解：
+### java的理解
 1. 平台无关性
 2. GC
 3. 语言特性：泛型反射等
@@ -161,11 +161,11 @@ java的理解：
 5. 类库
 6. 异常处理
 
-平台无关性：
+### 平台无关性
 1. javac编译成字节码，javap可反编译，java运行class文件
 2. java提供了不同平台的jvm，不同jvm对同一字节码文件生成不同的执行指令
 
-反射：
+### 反射
 在运行状态中，对任意一个类，都能动态获取其属性和方法；对任意一个对象，都能动态调用其属性和方法，例如：
  	
 ```
@@ -203,14 +203,15 @@ System.out.println(System.getProperty("java.class.path"));
 ```
 
 
-ClassLoader：
+### ClassLoader
 1. BootStrapClassLoader：C++编写，加载核心库
 2. ExtClassLoader：java编写，加载扩展库
 3. AppClassLoader：java编写，加载程序所在目录的class
 4. 自定义
 	- 覆盖findClass和defineClass方法，具体见书
 
-双亲委派机制：自底向上检查类是否已加载，自顶向下尝试加载类，代码架构可简化为如下：
+### 双亲委派机制
+自底向上检查类是否已加载，自顶向下尝试加载类，代码架构可简化为如下：
 	
 ```
 Class loadClass(){
@@ -228,5 +229,20 @@ Class loadClass(){
 		return c;
 }
 ```
-为什么需要双亲委派机制：
-1. 避免多份同样字节码的加载
+### 为什么需要双亲委派机制
+- 避免多份同样字节码的加载
+
+隐式加载：new  
+显式加载：loadClass，forName,获取到class对象再newInstance，但此构造方式不能传递参数
+
+### loadClass和forName的区别
+类的装载过程
+1. ClassLoader将class文件字节码转换成Class对象
+2. 链接：
+	- 校验：检查正确性和安全性
+	- 准备：分配空间，设置默认值
+	- 解析：符号引用转换成直接引用
+3. 初始化：执行类中的static代码块和变量赋值
+
+forName会对类进行链接和初始化，所以mysql在加载驱动时用的都是forName；loadClass只会生成一个class对象，不会进行链接和初始化
+
