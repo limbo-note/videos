@@ -370,3 +370,57 @@ String s4 = "aa";
 	- 缺点：需要一直循环等待，不能精确控制时间，代码也复杂
 - Thread.join()方法：阻塞当前线程以等待子线程处理完毕
 - Callable接口实现：FutureTask类或者线程池获取 
+	- `task = new FutureTask(new Callable<V>(){ V call();}); new Thread(task).start; task.get()`
+	- `Future<V> f = threadPool.sumbit(new Callable(){ V call();}); f.get()`
+
+### 线程的状态
+- 新建。创建未启动
+- 运行。包含Running和ready
+- 无限期等待。需要被显示唤醒
+	- 无参数的wait()和join()方法
+	- park()方法
+- 限期等待。一定时间后系统自动唤醒
+	- 有参数的wait()和join()方法
+	- Thread.sleep(timeout)方法
+	- parkNanos()和parkUntil()
+- 阻塞。等待获取锁的线程
+- 结束。线程结束执行，线程执行完后再执行start()方法会报错
+
+### sleep和wait的区别
+- sleep是Thread的方法，wait是Object的方法
+- sleep只会让出CPU，不会释放锁；wait不仅会让出CPU，还会释放锁（在同步锁代码块内）
+
+### notify和notifyall的区别
+
+
+
+
+# 10. 类库
+
+### String,StringBuffer, StringBuilder区别
+
+### 异常
+异常回答了三个问题：
+- what. 异常类型
+- where. 异常堆栈跟踪
+- why. 异常信息
+
+异常体系：
+- Error. JVM负担的责任
+	- NoClassDefFoundError
+	- StackOverflowError
+	- OutOfMemoryError
+- RuntimeException. 程序应该负担的责任
+	- 空指针
+	- 类型转换错误
+	- 传递非法参数
+	- 下标越界
+	- 数字格式
+- Checked Exception. 编译器负担的责任
+	- ClassNotFoundException
+	- IO异常
+
+ClassNotFoundException和NoClassDefFoundError区别：
+- Exception类型	**VS** Error类型
+- 显式加载Class的时候找不到类 **VS** 编译成功以后执行过程中Class找不到(如编译new XXX()成功后，删除对应的class文件再运行)
+- 一般在执行Class.forName()、ClassLoader.loadClass()或ClassLoader.findSystemClass()时抛出 **VS **由JVM的运行时系统抛出，是不成功的隐式类装入的结果
