@@ -392,7 +392,26 @@ String s4 = "aa";
 
 ### notify和notifyall的区别
 
+- 锁池EntryList：其他线程进入锁池等待锁的释放
+- 等待池WaitList：线程释放了对象的锁并阻塞(wait方法)，进入该对象的等待池中，不去竞争锁
+- notifyALL让所有等待池中的线程全部进入锁池去竞争锁
+- notify只随机选一个等待池中的线程进入锁池去竞争
 
+### yield
+会给线程调度器一个当前线程愿意让出cpu的指示，不一定会让出CPU，最终决定权还是在线程调度器中
+
+### interrupt
+- 若线程处于被阻塞状态，则立即退出并抛出一个InterruptedException异常
+- 若线程处于活动状态，则将线程的中断标志设为true，线程继续运行不受影响
+	- 可以通过`Thread.currentThread().isInterrupted()`函数去轮询中断标志，若为true则结束任务
+
+### 线程的状态转换图
+
+![](8-1.jpg)
+
+# 9. 多线程相关
+
+### synchronized底层实现原理
 
 
 # 10. 类库
