@@ -443,3 +443,54 @@ ClassNotFoundException和NoClassDefFoundError区别：
 - Exception类型	**VS** Error类型
 - 显式加载Class的时候找不到类 **VS** 编译成功以后执行过程中Class找不到(如编译new XXX()成功后，删除对应的class文件再运行)
 - 一般在执行Class.forName()、ClassLoader.loadClass()或ClassLoader.findSystemClass()时抛出 **VS **由JVM的运行时系统抛出，是不成功的隐式类装入的结果
+
+### 异常处理原则
+- 异常类名和message准确说明类型和原因
+- 提早抛出
+- 延迟捕获：让掌握更多信息的作用域来处理异常
+
+能用if语句块处理的地方，就不要用try/catch来代替，try/catch需要保存栈快照等信息，开销大，影响性能
+
+### 集合
+
+Collection:
+- List
+	- 有序，可重复，可通过索引取值
+		- ArrayList：线程不安全，效率高，数组实现
+		- Vector：线程安全（直接在修改数据的方法上加synchronized），效率低，数组实现
+		- LinkedList：线程不安全，效率高，链表实现
+- Set
+	- 无序，元素唯一
+		- HashSet：保证元素唯一性，底层是哈希表
+		- TreeSet：保证元素排序，底层是二叉树
+
+### HashMap
+
+- java8以前：**数组+链表**
+	- 数组元素为桶，通过`hash(key.hashCode())%len`来哈希桶的下标，桶为链表的头结点
+- java8之后：**数组+链表+红黑树**
+	- 数组依然为头结点或根节点，后面是链表或者是红黑树取决于节点的个数，并会在节点数量动态变化时相互转化
+
+put方法的逻辑：
+1. hashmap是延迟初始化，在put时，若发现没有初始化，则先初始化
+2. 求哈希值，数组下标
+3. 若无碰撞，则直接放入桶
+4. 若碰撞，则加入链表最后
+5. 链表长度超阈值，则转化为红黑树
+6. 红黑树转化为链表的阈值为6
+7. 如果发现节点已经存在则替换旧值
+8. 若桶满（容量*加载因子0.75），则扩容2倍
+
+hashmap的键对象应该为不可变对象，即保证hashCode()函数在放入时和获取时是相等的，否则会获取不到
+
+扩容的问题：
+- 非线程安全，多线程环境下，调整大小会存在竞争，容易死锁
+- rehashing是很耗时的
+
+### Hashtable
+
+与hashmap的差距基本只在于线程安全，在涉及到修改对象的方法上全部加上一个synchronized，使得性能很低下
+
+### ConcurrentHashMap
+
+
