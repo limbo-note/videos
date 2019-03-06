@@ -413,6 +413,34 @@ String s4 = "aa";
 
 ### synchronized底层实现原理
 
+......AQS学习
+
+### synchronized和reentrantlock
+
+reentrantlock的公平性：
+- 构造传参true为公平：获取锁的顺序按照先后调用lock方法的顺序
+- 非公平锁：抢占的顺序不一定，看运气，synchronized为非公平的
+
+reentrantlock将锁对象化，更灵活：
+- 感知等待锁的线程
+- 有超时设置
+- 感知线程是否成功获取锁
+- 同样j.u.c.locks.Condition则可以将wait()/notify()方法也对象化
+
+区别：
+- synchronized是关键字，reentrantlock是类
+- reentrantlock有等待超时功能
+- reentrantlock可以获取锁的信息
+- reentrantlock更灵活实现多路通知
+- 机制的不同（前者Mark word原理，后者park()原理）
+
+### jmm
+
+### CAS
+### java线程池处理逻辑
+
+![](9-1.jpg)
+
 
 # 10. 类库
 
@@ -493,4 +521,31 @@ hashmap的键对象应该为不可变对象，即保证hashCode()函数在放入
 
 ### ConcurrentHashMap
 
+CAS+synchronized使锁更细化，同样是**数组+链表+红黑树**
+
+其put方法的逻辑：
+1. 同样是延迟初始化，在put时，若发现Node[]数组没有初始化，则先初始化
+2. 求哈希值，数组下标，判断是否有碰撞
+3. 若无碰撞，则使用CAS操作加入至数组，若CAS操作失败则继续循环等待添加
+4. 若检测到正在扩容，则帮助其扩容
+5. 若有碰撞，则synchronized锁住桶元素（**将锁的粒度细化至桶，即链表或红黑树的头结点**）
+	- 加入至链表或者树
+6. 判断是否到阈值，是否需要转换
+
+### J.U.C包
+
+- 线程执行器executor
+- 锁Locks
+- 原子变量类atomic
+- 并发工具类tools
+	- CountDownLatch：主线程等待子线程调用countdown达到一定数量后，才继续执行。即join()相当于所有子线程在结束前调用了countdown
+	- CyclicBarrier：阻塞当前线程，等待其他线程全部都到达栅栏位置后，这些线程才继续执行
+	- Semaphore：信号量
+	- Exchanger：两个线程到达同步点后，才交换数据
+- 并发集合collections
+	- BlockingQueue：队列满时，入队阻塞；队列空时，出队阻塞
+	- ConcurrentHashMap
+
+### IO机制
+BIO（阻塞同步）, NIO（netty应用，非阻塞但同步）, AIO（非阻塞且异步）
 
