@@ -52,4 +52,19 @@
 - set 动态指定更新字段
 - trim 替换if语句中前后缀多出来的内容
 - foreach 用于对集合内容进行遍历,将得到内容作为SQL语句的一部分
-	- 包括list,array,map（map要在实参前加个注解）等
+	- 包括list,array,map（map要在形参前加个注解）等
+
+### 1.8 级联查询
+
+- 一对多
+	- 结果对象中含有list等类型的属性
+	- resultmap中加`<collection>`标签，对应对象中的list（标签的属性可对应到数据库的子查询或者连接查询join）
+- 多对一
+	- 结果对象中含有其它对象，并对应数据库中的表
+	- resultmap中加`<association>`标签 
+- 多对多
+	- 就是一对多的逻辑，只是结果对象有多个
+
+### 1.9 MyBatis注解开发
+
+CRUD
